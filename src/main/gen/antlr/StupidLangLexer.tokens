@@ -1,0 +1,14 @@
+REPEAT=1
+PRINT=2
+NUMBER=3
+LBRACE=4
+RBRACE=5
+SEMICOLON=6
+DQUOTE=7
+WS=8
+CHARACTER=9
+'repeat'=1
+'print'=2
+'{'=4
+'}'=5
+';'=6
