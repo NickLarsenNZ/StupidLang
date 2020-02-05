@@ -1,0 +1,56 @@
+plugins {
+    id 'java'
+    id 'antlr'
+    id 'idea'
+    id 'org.jetbrains.kotlin.jvm' version '1.3.41'
+}
+
+group 'play'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    antlr "org.antlr:antlr4:4.7.1"
+    compile "org.antlr:antlr4-runtime:4.7.1"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+compileTestKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+
+generateGrammarSource {
+    maxHeapSize = "64m"
+    arguments += [
+            "-visitor",
+            "-no-listener",
+            "-long-messages",
+            "-package", "antlr"
+    ]
+    outputDirectory = new File("src/main/gen/antlr".toString())
+
+}
+
+
+
+//https://stackoverflow.com/a/55655332/8148609
+def generatedSourcesDir = file('src/main/gen')
+
+// Required for compilation
+sourceSets.main.java.srcDir file(generatedSourcesDir)
+idea {
+    module {
+        // Required for the IDE
+        generatedSourceDirs += file(generatedSourcesDir)
+        sourceDirs += file(generatedSourcesDir)
+    }
+}
