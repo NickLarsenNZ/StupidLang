@@ -6,7 +6,10 @@ import antlr.StupidLangParserBaseVisitor
 class StupidVisitor : StupidLangParserBaseVisitor<String>() {
 
     override fun visitFile(ctx: StupidLangParser.FileContext?): String {
-        return visit(ctx?.statements())
+        return when {
+            ctx?.statements() == null -> ""
+            else -> visit(ctx.statements())
+        }
     }
 
     override fun visitStatements(ctx: StupidLangParser.StatementsContext?): String {
@@ -17,19 +20,17 @@ class StupidVisitor : StupidLangParserBaseVisitor<String>() {
             .toString()
     }
 
-    override fun visitStatement(ctx: StupidLangParser.StatementContext?): String {
-        val statement = ctx!!.children.first()
-        return visit(ctx.children.first())
-    }
+    override fun visitStatement(ctx: StupidLangParser.StatementContext?) = visit(ctx!!.children.first())
 
     override fun visitRepeat(ctx: StupidLangParser.RepeatContext?): String {
         val times = Integer.valueOf(visit(ctx?.times()))
-        return visit(ctx!!.statements()).repeat(times)
+        return when {
+            ctx?.statements() == null -> ""
+            else -> visit(ctx.statements()).repeat(times)
+        }
     }
 
-    override fun visitTimes(ctx: StupidLangParser.TimesContext?): String {
-        return ctx!!.text
-    }
+    override fun visitTimes(ctx: StupidLangParser.TimesContext?) = ctx!!.text
 
     override fun visitPrint(ctx: StupidLangParser.PrintContext?): String {
         super.visitPrint(ctx)
@@ -37,8 +38,5 @@ class StupidVisitor : StupidLangParserBaseVisitor<String>() {
         return "$arg\n"
     }
 
-    override fun visitString(ctx: StupidLangParser.StringContext?): String {
-        //println("visitString")
-        return "${ctx?.text}"
-    }
+    override fun visitString(ctx: StupidLangParser.StringContext?) = ctx!!.text
 }
