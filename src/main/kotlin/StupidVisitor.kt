@@ -33,7 +33,6 @@ class StupidVisitor : StupidLangParserBaseVisitor<String>() {
     override fun visitTimes(ctx: StupidLangParser.TimesContext?) = ctx!!.text
 
     override fun visitPrint(ctx: StupidLangParser.PrintContext?): String {
-        super.visitPrint(ctx)
         val arg = visit(ctx?.string())
         return "$arg\n"
     }
