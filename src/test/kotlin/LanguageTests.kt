@@ -112,4 +112,20 @@ class LanguageTests {
 
         assertEquals(expected, result)
     }
+
+    @Test
+    fun `comments and statements`() {
+        val stupidScript = """
+            # this is a comment
+            print "hello"; # this is also a comment
+            print "world"; # so is this
+        """.trimIndent()
+
+        val expected = "hello\nworld\n"
+
+        val parser = getParser(stupidScript)
+        val result = visit(parser.file())
+
+        assertEquals(expected, result)
+    }
 }

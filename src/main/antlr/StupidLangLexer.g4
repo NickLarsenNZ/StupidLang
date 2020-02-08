@@ -14,8 +14,11 @@ RBRACE          : '}';
 SEMICOLON       : ';';
 DQUOTE          : '"' -> pushMode(STRING_MODE);
 
-// Send all whitespace to a hidden channel
-WS              : [\r\n\t ]+ -> channel(HIDDEN);
+// Send all whitespace and comments to a hidden channel
+STRIP           : (WS | COMMENT) -> channel(HIDDEN);
+
+fragment WS     : [\r\n\t ]+;
+fragment COMMENT: '#'~('\r' | '\n')*;
 
 mode STRING_MODE;
 S_DQUOTE        : '"' -> type(DQUOTE), popMode;
