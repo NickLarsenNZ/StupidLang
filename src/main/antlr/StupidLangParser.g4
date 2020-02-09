@@ -19,6 +19,7 @@ statements
 statement
     : repeat
     | print
+    | var
     ;
 
 // Repeat takes two parameters, a number and a code block
@@ -33,6 +34,27 @@ times
 
 print
     : PRINT DQUOTE string DQUOTE
+    ;
+
+var
+    : VAR id EQUAL value
+    ;
+
+id
+    : '[a-zA-Z0-9_]+'
+    ;
+
+value
+    : NUMBER
+    | DQUOTE string DQUOTE
+    | id
+    | expr
+    ;
+
+expr
+    : value ('+'|'-') value
+    | value ('*'|'/') value
+    | '(' expr ')'
     ;
 
 // Shortcut so we have a named property in the generated code

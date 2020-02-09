@@ -4,6 +4,7 @@ lexer grammar StupidLangLexer;
 // statement keywords
 REPEAT          : 'repeat';
 PRINT           : 'print';
+VAR             : 'var';
 
 // Types
 NUMBER          : [0-9]+;
@@ -13,6 +14,7 @@ LBRACE          : '{';
 RBRACE          : '}';
 SEMICOLON       : ';';
 DQUOTE          : '"' -> pushMode(STRING_MODE);
+EQUAL           : '=';
 
 // Send all whitespace and comments to a hidden channel
 STRIP           : (WS | COMMENT) -> channel(HIDDEN);
